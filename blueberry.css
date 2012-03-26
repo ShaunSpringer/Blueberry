@@ -73,3 +73,6 @@
 
 }
 .blueberry .pager li.active a span { background: #404040; }
+
+.blueberry .captions li{color:#fff;text-align:center;display:none;width:100%;overflow:hidden}
+.blueberry .captions li.active{display:block}
