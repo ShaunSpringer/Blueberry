@@ -88,19 +88,16 @@
 				}
 				
 				//build our captions box if it doesnt exist
-				if (o.captions)
-				{
-					if(captions.length) {
-						captions.eq(current).addClass('active');
-					} else if(o.captions){
-						obj.append('<ul class="captions"></ul>');
-						slides.each(function(index) {
-							var caption = slides.eq(index).attr('caption');
-							$('.captions', obj).append('<li><span>'+caption+'</span></li>');
-						});
-						captions = $('.captions li', obj);
-						captions.eq(current).addClass('active');
-					}
+				if(captions.length) {
+					captions.eq(current).addClass('active');
+				} else if(o.captions){
+					obj.append('<ul class="captions"></ul>');
+					slides.each(function(index) {
+						var caption = slides.eq(index).attr('caption');
+						$('.captions', obj).append('<li><span>'+caption+'</span></li>');
+					});
+					captions = $('.captions li', obj);
+					captions.eq(current).addClass('active');
 				}
 
 				//primary function to change slides
@@ -141,7 +138,8 @@
 					}, o.interval);
 				};
 				//start the timer for the first time
-				rotateTimer();
+				if (slides.length > 1)
+					rotateTimer();
 
 				//pause the slider on hover
 				//disabled by default due to bug
