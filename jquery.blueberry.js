@@ -32,7 +32,8 @@
 				hoverpause: false,
 				pager: true,
 				nav: true, //reserved
-				keynav: true
+				keynav: true,
+				captions: false
 			}
 			var options =  $.extend(defaults, options);
  
@@ -40,10 +41,11 @@
 				var o = options;
 				var obj = $(this);
 
-				//store the slide and pager li
+				//store the slide, pager li, and captions li
 				var slides = $('.slides li', obj);
 				var pager = $('.pager li', obj);
-
+				var captions = $('.captions li', obj);
+				
 				//set initial current and next slide index values
 				var current = 0;
 				var next = current+1;
@@ -60,7 +62,6 @@
 				//hide all slides, fade in the first, add active class to first slide
 				slides.hide().eq(current).fadeIn(o.duration).addClass('active');
 				
-
 				//build pager if it doesn't already exist and if enabled
 				if(pager.length) {
 					pager.eq(current).addClass('active');
@@ -85,6 +86,22 @@
 						return false;
 					});
 				}
+				
+				//build our captions box if it doesnt exist
+				if (o.captions)
+				{
+					if(captions.length) {
+						captions.eq(current).addClass('active');
+					} else if(o.captions){
+						obj.append('<ul class="captions"></ul>');
+						slides.each(function(index) {
+							var caption = slides.eq(index).attr('caption');
+							$('.captions', obj).append('<li><span>'+caption+'</span></li>');
+						});
+						captions = $('.captions li', obj);
+						captions.eq(current).addClass('active');
+					}
+				}
 
 				//primary function to change slides
 				var rotate = function(){
@@ -102,6 +119,12 @@
 					//update pager to reflect slide change
 					if(pager){
 						pager.eq(current).removeClass('active')
+							.end().eq(next).addClass('active');
+					}
+					
+					//update captions to reflect slide change
+					if(captions){
+						captions.eq(current).removeClass('active')
 							.end().eq(next).addClass('active');
 					}
 
